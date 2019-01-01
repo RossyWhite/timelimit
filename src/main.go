@@ -40,13 +40,28 @@ func myHandler() error {
 	now := time.Now().Round(time.Second)
 	dyingDay := born.AddDate(lifetime, 0, 0)
 	nextYear := time.Date(now.Year()+1, 1, 1, 0, 0, 0, 0, time.Local)
-	yearRest := nextYear.Sub(now)
-	lifeSpan := dyingDay.Sub(now)
 
-	t := fmt.Sprintf("Your life left: *%d* days\n", int(lifeSpan.Seconds()/86400))
-	t += fmt.Sprintf("Your life left: *%d* hours\n\n", int(lifeSpan.Hours()))
-	t += fmt.Sprintf("This year left: *%d* days\n", int(yearRest.Seconds()/86400))
-	t += fmt.Sprintf("This year left: *%d* hours\n", int(yearRest.Hours()))
+	yearLeft := nextYear.Sub(now)
+	yearCurrent := now.Sub(time.Date(now.Year(), 1, 1, 0, 0, 0, 0, time.Local))
+	lifeLeft := dyingDay.Sub(now)
+	lifeCurrent := now.Sub(born)
+
+	lifeLeftDays := int(lifeLeft.Seconds()/86400)
+	lifeLeftHours := int(lifeLeft.Hours())
+	lifeCurrentHours := int(lifeCurrent.Hours())
+	lifePercent := float64(lifeCurrentHours) / float64(lifeCurrentHours + lifeLeftHours) * 100
+
+	yearLeftDays := int(yearLeft.Seconds()/86400)
+	yearLeftHours := int(yearLeft.Hours())
+	yearCurrentHours := int(yearCurrent.Hours())
+	yearPercent := float64(yearCurrentHours) / float64(yearCurrentHours + yearLeftHours) * 100
+
+	t := fmt.Sprintf("Your life left: *%d* days\n", lifeLeftDays)
+	t += fmt.Sprintf("Your life left: *%d* hours\n", lifeLeftHours)
+	t += fmt.Sprintf("Your life is current: *%.2f* %%\n\n", lifePercent)
+	t += fmt.Sprintf("This year left: *%d* days\n", yearLeftDays)
+	t += fmt.Sprintf("This year left: *%d* hours\n", yearLeftHours)
+	t += fmt.Sprintf("This year is current: *%.2f* %%\n", yearPercent)
 
 	p := Payload{
 		Text:        fmt.Sprintln(now),
