@@ -4,6 +4,7 @@ Transform: AWS::Serverless-2016-10-31
 Parameters:
   url:
     Type: String
+    NoEcho: true
   lifetime:
     Type: Number
   born:
