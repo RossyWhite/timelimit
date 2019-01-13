@@ -45,7 +45,8 @@ deploy: package
     	"lifetime"="$(LIFETIME)" \
     	"url"="$(URL)" \
     	"interval"="$(INTERVAL)" \
-    	"tz"="$(TZ)"
+    	"tz"="$(TZ)" \
+    	"stackname"="$(STACK_NAME)"
 
 .PHONY: delete
 delete:

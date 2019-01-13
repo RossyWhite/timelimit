@@ -13,6 +13,8 @@ Parameters:
     Type: String
   tz:
     Type: String
+  stackname:
+    Type: String
 
 Resources:
   LambdaFunction:
@@ -20,7 +22,7 @@ Resources:
     Properties:
       Runtime: go1.x
       CodeUri: build
-      Handler: lifelimit
+      Handler: !Ref stackname
       Role: !GetAtt LambdaExecutionRole.Arn
       Environment:
         Variables:
